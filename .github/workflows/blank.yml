@@ -28,6 +28,11 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Run a command
+        run: |
+          # Command that might fail
+          exit 1  # This will set the job status as failed
   build2:
     # The type of runner that the job will run on
     needs: build1
