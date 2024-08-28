@@ -29,39 +29,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Esperar 2 minutos
-        run: sleep 120
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-
-  build2:
-    # The type of runner that the job will run on
-    needs: build1
-    if: inputs.run_regression_tests && !cancelled()
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      - name: Esperar 2 minutos
-        run: sleep 120
-        
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      
+      # Trigger iOS tests
+      - name: Trigger iOS tests
+        run: >
+          COMMIT_MESSAGE=$(echo "${{ github.event.commits[0].message }}" | head -n 1)
+          curl -X POST
+          --header "Authorization: Bearer ${{ secrets.LGF_CI }}"
+          --header "Accept: application/vnd.github.v3+json"
+          https://api.github.com/repos/lodgify/appium-automationqa-mobile/actions/workflows/run_regression_tests.yml/dispatches
+          --data '{"ref": "master","inputs": {"commit_message": "'"$COMMIT_MESSAGE"'"}}'
