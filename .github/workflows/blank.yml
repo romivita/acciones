@@ -37,10 +37,11 @@ jobs:
       
       # Trigger iOS tests
       - name: Trigger iOS tests
-        run: >
+        run: |
           COMMIT_MESSAGE=$(echo "${{ github.event.commits[0].message }}" | head -n 1)
-          curl -X POST
-          --header "Authorization: Bearer ${{ secrets.LGF_CI }}"
-          --header "Accept: application/vnd.github.v3+json"
-          https://api.github.com/repos/lodgify/appium-automationqa-mobile/actions/workflows/run_regression_tests.yml/dispatches
-          --data '{"ref": "master","inputs": {"commit_message": "`$COMMIT_MESSAGE`"}}'
+          curl -X POST \
+            --header "Authorization: Bearer ${{ secrets.LGF_CI }}" \
+            --header "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/lodgify/appium-automationqa-mobile/actions/workflows/run_regression_tests.yml/dispatches \
+            --data "{\"commit_message\": \"$COMMIT_MESSAGE\"}}"
+
