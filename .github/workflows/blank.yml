@@ -43,4 +43,4 @@ jobs:
           --header "Authorization: Bearer ${{ secrets.LGF_CI }}"
           --header "Accept: application/vnd.github.v3+json"
           https://api.github.com/repos/lodgify/appium-automationqa-mobile/actions/workflows/run_regression_tests.yml/dispatches
-          --data '{"ref": "master","inputs": {"commit_message": "'"$COMMIT_MESSAGE"'"}}'
+          --data '{"ref": "master","inputs": {"commit_message": "$COMMIT_MESSAGE"}}'
