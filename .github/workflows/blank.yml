@@ -38,10 +38,11 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       
+      # Get commit message
       - name: Get commit message
         id: get_commit_message
         run: |
-          COMMIT_MESSAGE=$(echo "${{ github.event.commits[0].message }}" | head -n 1)
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
           echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
 
       - name: Trigger iOS tests
