@@ -38,7 +38,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       
-      # Get commit message
       - name: Get commit message
         id: get_commit_message
         run: |
